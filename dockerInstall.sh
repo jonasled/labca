@@ -51,6 +51,8 @@ sed -i -e "s|\[LABCA_CPS_LOCATION\]|http://$LABCA_FQDN/cps/|g" www/cps/index.htm
 sed -i -e "s|\[LABCA_CERTS_LOCATION\]|http://$LABCA_FQDN/certs/|g" www/cps/index.html
 
 cd www
+mkdir -R "../gui/data/root-ca" 
+mkdir -R "../gui/data/issuer/ca-int"
 export PKI_ROOT_CERT_BASE="../gui/data/root-ca"
 export PKI_INT_CERT_BASE="../gui/data/issuer/ca-int"
 
@@ -102,11 +104,10 @@ mkdir -p "cmd/mail-tester"
 cp ../mail-tester.go cmd/mail-tester/main.go
 cd ..
 
-export boulderLabCADir="boulder_labca"
-[ -d "$boulderLabCADir" ] || mkdir -p "$boulderLabCADir"
-cd "$boulderLabCADir"
+[ -d "boulder_labca" ] || mkdir -p "boulder_labca"
+cd "boulder_labca"
 [ ! -e "secrets/smtp_password" ] || mv "secrets/smtp_password" "secrets/smtp_password_PRESERVE"
-cp -r "../boulder/test" -T "$boulderLabCADir"
+cp -r "../boulder/test" -T "boulder_labca"
 [ ! -e "secrets/smtp_password_PRESERVE" ] || mv "secrets/smtp_password_PRESERVE" "secrets/smtp_password"
 patch -p1 -o "entrypoint.sh" < ../entrypoint.patch
 patch -p1 -o "startservers.py" < ../startservers.patch 
