@@ -102,6 +102,7 @@ mkdir -p "cmd/mail-tester"
 cp ../mail-tester.go cmd/mail-tester/main.go
 cd ..
 
+export boulderLabCADir="boulder_labca"
 [ -d "$boulderLabCADir" ] || mkdir -p "$boulderLabCADir"
 cd "$boulderLabCADir"
 [ ! -e "secrets/smtp_password" ] || mv "secrets/smtp_password" "secrets/smtp_password_PRESERVE"
