@@ -3,15 +3,14 @@
 # Utility method to prompt the user for a config variable and export it
 prompt_and_export() {
     local varName="$1"
-    local varDefault="$2"
     local promptMsg="$3"
     local answer
 
-    read -p "$promptMsg [$varDefault] " answer </dev/tty
+    read -p "$promptMsg " answer </dev/tty
     if [ "$answer" ]; then
         export $varName="$answer"
     else
-        export $varName="$varDefault"
+        exit 0
     fi
 }
 
@@ -42,7 +41,7 @@ prompt_and_export LABCA_FQDN "$LABCA_FQDN" "FQDN (Fully Qualified Domain Name) f
 [ -e "gui/data/config.json" ] || echo -e "{\n  \"config\": {\n    \"complete\": false\n  },\n  \"labca\": {\n    \"fqdn\": \"$LABCA_FQDN\"\n  },\n  \"version\": \"\"\n}" > "gui/data/config.json"
 replace_all gui/data/openssl.cnf LABCA_FQDN
 replace_all gui/data/issuer/openssl.cnf LABCA_FQDN
-replace_all www/acme_tiny.py LABCA_FQDN
+replace_all acme_tiny.py LABCA_FQDN
 
 grep \"version\" gui/data/config.json &>/dev/null || sed -i -e 's/^}$/,\n  "version": ""\n}/' gui/data/config.json
 sed -i -e "s/\"version\": \".*\"/\"version\": \"$version\"/" gui/data/config.json
