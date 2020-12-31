@@ -106,7 +106,7 @@ cd ..
 [ -d "boulder_labca" ] || mkdir -p "boulder_labca"
 cd "boulder_labca"
 [ ! -e "secrets/smtp_password" ] || mv "secrets/smtp_password" "secrets/smtp_password_PRESERVE"
-cp -r "../boulder/test/" -T "."
+cp -r "../boulder/test/" "."
 [ ! -e "secrets/smtp_password_PRESERVE" ] || mv "secrets/smtp_password_PRESERVE" "secrets/smtp_password"
 patch -p1 -o "entrypoint.sh" < ../entrypoint.patch
 patch -p1 -o "startservers.py" < ../startservers.patch 
