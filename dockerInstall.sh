@@ -83,7 +83,6 @@ cd ..
 
 git clone https://github.com/letsencrypt/boulder
 cd boulder
-git reset --hard $boulderTag
 if [ -e "sa/_db-next/migrations/20190221140139_AddAuthz2.sql" ]; then
 cp sa/_db-next/migrations/20190221140139_AddAuthz2.sql sa/_db/migrations/
 fi
@@ -107,7 +106,7 @@ cd ..
 [ -d "boulder_labca" ] || mkdir -p "boulder_labca"
 cd "boulder_labca"
 [ ! -e "secrets/smtp_password" ] || mv "secrets/smtp_password" "secrets/smtp_password_PRESERVE"
-cp -r "../boulder/test" -T "boulder_labca"
+cp -r "../boulder/test/*" -T "."
 [ ! -e "secrets/smtp_password_PRESERVE" ] || mv "secrets/smtp_password_PRESERVE" "secrets/smtp_password"
 patch -p1 -o "entrypoint.sh" < ../entrypoint.patch
 patch -p1 -o "startservers.py" < ../startservers.patch 
