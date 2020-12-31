@@ -104,19 +104,10 @@ cp ../mail-tester.go cmd/mail-tester/main.go
 cd ..
 
 [ -d "boulder_labca" ] || mkdir -p "boulder_labca"
+cp -r "boulder/test/." "boulder_labca"
 cd "boulder_labca"
 [ ! -e "secrets/smtp_password" ] || mv "secrets/smtp_password" "secrets/smtp_password_PRESERVE"
-cp -r "../boulder/test/" "."
 [ ! -e "secrets/smtp_password_PRESERVE" ] || mv "secrets/smtp_password_PRESERVE" "secrets/smtp_password"
-patch -p1 -o "entrypoint.sh" < ../entrypoint.patch
-patch -p1 -o "startservers.py" < ../startservers.patch 
-patch -p1 < ../startservers.patch
-patch -p1 -o "config/ca-a.json" < ../test_config_ca_a.patch
-patch -p1 -o "config/ca-b.json" < ../test_config_ca_b.patch
-
-patch -p1 -o "config/expiration-mailer.json" < ../config_expiration-mailer.patch
-patch -p1 -o "config/notify-mailer.json" < ../config_notify-mailer.patch
-patch -p1 -o "config/bad-key-revoker.json" < ../config_bad-key-revoker.patch
 
 sed -i -e "s/test-ca2.pem/test-ca.pem/" config/ocsp-responder.json
 sed -i -e "s/test-ca2.pem/test-ca.pem/" config/ocsp-updater.json
