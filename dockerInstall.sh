@@ -173,7 +173,7 @@ export PKI_EMAIL_USER=$(grep user gui/data/config.json | head -1 | perl -p0e 's/
 export PKI_EMAIL_FROM=$(grep from gui/data/config.json | head -1 | perl -p0e 's/.*?:\s+(.*)/\1/' | sed -e 's/\",//g' | sed -e 's/\"//g')
 
 cd boulder_labca
-gui/apply-boulder
+../gui/apply-boulder
 cd ..
 
 cp docker/docker-compose.yml .
