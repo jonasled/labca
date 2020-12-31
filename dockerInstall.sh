@@ -51,6 +51,9 @@ sed -i -e "s|\[LABCA_CPS_LOCATION\]|http://$LABCA_FQDN/cps/|g" www/cps/index.htm
 sed -i -e "s|\[LABCA_CERTS_LOCATION\]|http://$LABCA_FQDN/certs/|g" www/cps/index.html
 
 cd www
+export PKI_ROOT_CERT_BASE="../gui/data/root-ca"
+export PKI_INT_CERT_BASE="../gui/data/issuer/ca-int"
+
 PKI_ROOT_DN=$(openssl x509 -noout -in $PKI_ROOT_CERT_BASE.pem -subject | sed -e "s/subject= //")
 sed -i -e "s|\[PKI_ROOT_DN\]|$PKI_ROOT_DN|g" certs/index.html
 PKI_ROOT_VALIDITY="$(openssl x509 -noout -in $PKI_ROOT_CERT_BASE.pem -startdate | sed -e "s/.*=/Not Before: /")<br/> $(openssl x509 -noout -in $PKI_ROOT_CERT_BASE.pem -enddate | sed -e "s/.*=/Not After: /")"
@@ -164,8 +167,6 @@ done
 sed -i -e "s/names/name\(s\)/" example-expiration-template
 rm test-ca2.pem
 
-export PKI_ROOT_CERT_BASE="$adminDir/data/root-ca"
-export PKI_INT_CERT_BASE="$adminDir/data/issuer/ca-int"
 export PKI_DNS=$(grep dns $adminDir/data/config.json | perl -p0e 's/.*?:\s+(.*)/\1/' | sed -e 's/\",//g' | sed -e 's/\"//g')
 export PKI_DOMAIN=$(grep fqdn $adminDir/data/config.json | sed -e 's/.*:[ ]*//' | sed -e 's/\",//g' | sed -e 's/\"//g' | perl -p0e 's/.*?\.//')
 export PKI_DOMAIN_MODE=$(grep domain_mode $adminDir/data/config.json | sed -e 's/.*:[ ]*//' | sed -e 's/\",//g' | sed -e 's/\"//g')
